@@ -42,10 +42,11 @@ export function FadingLines({
    *  (`line-dark`); pass `bg-line` on a light/surface section instead — see
    *  the token comment in index.css. */
   color?: string;
-  /** Starts every line at half its authored height and grows it to full
-   *  height off `--hero-progress`, the scroll var Hero.tsx sets as it leaves
-   *  the viewport — see the comment on `posterStyle` there. Only the WhyMe
-   *  instance opts in; DarkCTA's lines are unrelated to that transition. */
+  /** Starts every line at a fraction of its authored height and grows it to
+   *  full height off `--hero-progress`, the scroll var Hero.tsx sets as it
+   *  leaves the viewport — see the comment on `posterStyle` there. Only the
+   *  WhyMe instance opts in; DarkCTA's lines are unrelated to that
+   *  transition. */
   growWithHero?: boolean;
 }) {
   return (
@@ -63,7 +64,7 @@ export function FadingLines({
             maskImage: "linear-gradient(to bottom, black, transparent)",
             WebkitMaskImage: "linear-gradient(to bottom, black, transparent)",
             ...(growWithHero && {
-              transform: "scaleY(calc(0.5 + 0.5 * var(--hero-progress, 1)))",
+              transform: "scaleY(calc(0.08 + 0.92 * var(--hero-progress, 1)))",
               transformOrigin: "top",
             }),
           }}

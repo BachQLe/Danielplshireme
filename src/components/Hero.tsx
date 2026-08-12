@@ -32,8 +32,20 @@ import { useEffect, useRef, type CSSProperties } from 'react'
  * already puts positioned siblings above static ones. Lagging behind the
  * scroll is what creates the overlap for that opaque sibling to cover.
  */
+
+/*
+ * Extra height added above the original 1920×1080 composition, in cqw (same
+ * unit as every child's position below). The background image is itself
+ * exactly 1920×1080, so widening the box's aspect ratio like this makes
+ * `bg-cover` scale it up to fill the added height — a zoom, not a letterbox.
+ * Every child's `top` below has this added on top of its original authored
+ * value so the whole composition stays pinned to the bottom of the frame;
+ * the new space reads as blank top padding instead of shifting anything.
+ */
+const HERO_TOP_PAD_CQW = 10
+
 const posterStyle: CSSProperties = {
-  aspectRatio: '1920 / 1080',
+  aspectRatio: `1920 / ${1080 + (HERO_TOP_PAD_CQW / 100) * 1920}`,
   containerType: 'inline-size',
   backgroundImage: 'url(/images/hero/background-texture.jpg)',
   transform: 'translateY(calc(var(--hero-progress, 0) * 100px))',
@@ -49,17 +61,21 @@ const posterStyle: CSSProperties = {
  * `prefers-reduced-motion` is handled globally (see bottom of index.css),
  * which collapses every duration here to ~0 automatically.
  */
-const line1Style: CSSProperties = { left: '11.0cqw', top: '8.5cqw', fontSize: '13.5cqw' }
+const line1Style: CSSProperties = {
+  left: '11.0cqw',
+  top: `${6.5 + HERO_TOP_PAD_CQW}cqw`,
+  fontSize: '14.5cqw',
+}
 const line2Style: CSSProperties = {
   left: '11.0cqw',
-  top: '20cqw',
-  fontSize: '13.5cqw',
+  top: `${20 + HERO_TOP_PAD_CQW}cqw`,
+  fontSize: '14.5cqw',
   animationDelay: '90ms',
 }
 
 const photoStyle: CSSProperties = {
   left: '32.8464cqw',
-  top: '25.4417cqw',
+  top: `${25.4417 + HERO_TOP_PAD_CQW}cqw`,
   width: '33.1979cqw',
   height: '33.7812cqw',
   animationDelay: '1500ms',
@@ -67,7 +83,7 @@ const photoStyle: CSSProperties = {
 
 const bubbleStyle: CSSProperties = {
   left: '58.6458cqw',
-  top: '35.2552cqw',
+  top: `${35.2552 + HERO_TOP_PAD_CQW}cqw`,
   width: '12.1042cqw',
   height: '9.0729cqw',
   animationDelay: '2500ms',
@@ -76,16 +92,19 @@ const bubbleStyle: CSSProperties = {
 /*
  * The headline now sits low enough that HIRE dips into the hair, where solid
  * black reads as a smudge against dark hair instead of type. These two
- * layers are a white-outline duplicate of each line, masked by the
- * portrait's own alpha channel — visible only where the portrait is opaque,
- * i.e. exactly the silhouette, not a bounding box. Reusing the same PNG
- * costs nothing extra over the network (browser cache, same URL as the
- * <img> below). mask-position is (photo origin − line origin) so the reused
- * portrait lines back up with where it's actually drawn on screen; redo that
- * math if `photoStyle` or either line's left/top ever changes. */
+ * layers are a solid-white duplicate of each line, masked by the portrait's
+ * own alpha channel — visible only where the portrait is opaque, i.e.
+ * exactly the silhouette, not a bounding box. A solid fill (rather than a
+ * hollow stroke-only outline) is what keeps this legible: the display
+ * font's chunky strokes reduce a thin outline to a broken tangle of lines,
+ * while a full white fill still reads as the letterform against dark hair.
+ * Reusing the same PNG costs nothing extra over the network (browser cache,
+ * same URL as the <img> below). mask-position is (photo origin − line
+ * origin) so the reused portrait lines back up with where it's actually
+ * drawn on screen; redo that math if `photoStyle` or either line's left/top
+ * ever changes. */
 const maskShared: CSSProperties = {
-  color: 'transparent',
-  WebkitTextStroke: '0.22cqw #fff',
+  color: '#fff',
   WebkitMaskImage: 'url(/images/hero/portrait.png)',
   maskImage: 'url(/images/hero/portrait.png)',
   WebkitMaskRepeat: 'no-repeat',
@@ -97,8 +116,8 @@ const maskShared: CSSProperties = {
 const line1MaskStyle: CSSProperties = {
   ...line1Style,
   ...maskShared,
-  WebkitMaskPosition: '21.8464cqw 16.9417cqw',
-  maskPosition: '21.8464cqw 16.9417cqw',
+  WebkitMaskPosition: '21.8464cqw 18.9417cqw',
+  maskPosition: '21.8464cqw 18.9417cqw',
 }
 
 const line2MaskStyle: CSSProperties = {
