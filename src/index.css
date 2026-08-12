@@ -1,0 +1,384 @@
+@import "tailwindcss";
+
+/* Dark mode is CLASS-driven, not media-driven: the marketing page is
+   deliberately light and only the rule-system kitchen sink (`/#rules`)
+   toggles `.dark` on <html>. A `prefers-color-scheme` strategy would flip
+   the whole poster for anyone with a dark OS, which is not the intent. */
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* ---------------------------------------------------------------
+   Tegno — display font, self-hosted from /public/fonts/. Used for
+   the hero + CTA headline and the contact-modal phone number.
+   Space Grotesk remains the fallback if the font file ever goes missing.
+--------------------------------------------------------------- */
+@font-face {
+  font-family: "Tegno";
+  src:
+    url("/fonts/Tegno.woff2") format("woff2"),
+    url("/fonts/Tegno.ttf") format("truetype");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@theme {
+  /* Surfaces.
+
+     `canvas` is the page tint that shows through as GUTTER — the space
+     outside the frame, and any section that opts out of a white fill.
+     `surface` is the pure-white content cell. The read is: tint = gutter,
+     white = content. Both are overridden under `.dark` further down. */
+  --color-canvas: #fafafa;
+  --color-surface: #ffffff;
+  --color-row-alt: #f5f5f5;
+  --color-dark: #141414;
+  --color-dark-card: #1e1e1e;
+
+  /* Accents */
+  --color-green: #16b364;
+  --color-green-dark: #14a15a;
+  --color-coral: #f97066;
+  --color-yellow: #fdb022;
+
+  /* Tinted accent washes — quiet surfaces for icon badges and stat chips */
+  --color-green-wash: #e8f8f0;
+  --color-coral-wash: #fdeceb;
+  --color-yellow-wash: #fff5e2;
+
+  /* Pop inks — decorative torn slabs ONLY, never interactive elements.
+     Governing rule: green/coral/yellow above are semantic and interactive
+     (links, buttons, comparison column bars). The pop-* inks below are
+     decorative slab fills only. Never mix the two on one element, and
+     never put body text directly on a pop ink. */
+  --color-pop-yellow: #ffc93c;
+  --color-pop-mint: #7be0b4;
+  --color-pop-pink: #ff9fb2;
+  --color-pop-coral: #ff7a5c;
+  --color-pop-violet: #b98cf5;
+  --color-pop-blue: #8da6f7;
+  --color-pop-magenta: #e86be0;
+  --color-pop-lime: #c6e85b;
+
+  /* Text */
+  --color-ink: #0a0a0a;
+  --color-muted: #6b7280;
+  --color-dark-ink: #ffffff;
+  --color-dark-muted: #a0a0a0;
+
+  /* Structure — the rule grid.
+
+     `rule` is THE hairline color. Every structural line on the page (section
+     boundaries, grid seams, frame/rail verticals, card borders) resolves to
+     it, so there is exactly one place to tune the page's line weight. It is
+     deliberately an alpha color, not a solid grey: rules composite over both
+     `canvas` and `surface` and must read as structure, not as a border.
+
+     `rule-strong` (~12%) is for EMPHASIS only — a table header underline, a
+     dot-grid dot. Reaching for it on an ordinary divider is how a page ends
+     up looking like it has doubled borders.
+
+     `line` / `line-dark` are NOT part of this system: they're the decorative
+     vertical texture (see FadingLines.tsx) — `line-dark` on the dark CTA,
+     `line` wherever that same texture sits on a light/surface section
+     (WhyMe). Both are artwork, deliberately darker than the surface they
+     fade over rather than tied to the hairline weight above. */
+  --color-rule: oklch(0 0 0 / 0.07);
+  --color-rule-strong: oklch(0 0 0 / 0.12);
+  --color-line: oklch(0 0 0 / 0.12);
+  --color-line-dark: #2a2a2a;
+
+  /* The diagonal stripe texture RuleLayer draws in the rail/frame margin —
+     deliberately fainter than `--color-rule` itself (half the alpha), since
+     it's a background texture filling a strip rather than a single hairline. */
+  --color-stripe: oklch(0 0 0 / 0.035);
+
+  /* Frame widths. Both are `--container-*` so Tailwind generates
+     `max-w-frame` / `max-w-rail` utilities from them. EVERY vertical hairline
+     on the page derives its x-position from these two tokens — no component
+     invents its own. `frame` matches the content column the page has always
+     used (max-w-5xl = 64rem); `rail` is the wider outer frame. */
+  --container-frame: 56rem;
+  --container-rail: 60rem;
+
+  /* FeatureCard's named exception to the sharp-corners reset below. These win
+     with no inline style because the built stylesheet's cascade layers land
+     in first-appearance order (properties → theme → base → components →
+     utilities) with no explicit `@layer a, b, c;` statement — a `utilities`
+     -layer `rounded-*` outranks the `@layer base` reset at index.css:154-159
+     regardless of specificity. */
+  --radius-card: 20px;
+  --radius-mat: 14px;
+  --radius-cta: 8px;
+
+  --color-placeholder-border: #d1d5db;
+  --color-placeholder-bg: #f9fafb;
+  --color-placeholder-text: #9ca3af;
+
+  /* Type */
+  --font-display: "Tegno", "Space Grotesk", system-ui, sans-serif;
+  --font-sans: "Figtree", system-ui, -apple-system, sans-serif;
+  --font-pixel: "Press Start 2P", ui-monospace, monospace;
+
+  /* Motion */
+  --animate-modal-in: modal-in 200ms ease-out;
+  --animate-hero-drop-in: hero-drop-in 380ms cubic-bezier(0.16, 1, 0.3, 1) both;
+  --animate-hero-pop-up: hero-pop-up 420ms cubic-bezier(0.34, 1.56, 0.64, 1) both;
+}
+
+/* ---------------------------------------------------------------
+   Dark mode. Token overrides ONLY — no component knows about dark,
+   because no component references a raw color for a surface or a rule.
+   Rules invert to a white alpha: 7% black over white and 7% white over
+   near-black are not equally visible, so the dark value is bumped to 9%
+   (and 14% for rule-strong) to hold the same apparent weight.
+--------------------------------------------------------------- */
+.dark {
+  --color-canvas: #0e0e0e;
+  --color-surface: #161616;
+  --color-row-alt: #1b1b1b;
+
+  --color-rule: oklch(1 0 0 / 0.09);
+  --color-rule-strong: oklch(1 0 0 / 0.14);
+  --color-stripe: oklch(1 0 0 / 0.045);
+
+  --color-ink: #f5f5f5;
+  --color-muted: #8f8f8f;
+
+  --color-placeholder-border: #333333;
+  --color-placeholder-bg: #131313;
+  --color-placeholder-text: #6f6f6f;
+
+  color-scheme: dark;
+}
+
+@keyframes modal-in {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes hero-drop-in {
+  from {
+    opacity: 0;
+    transform: translateY(-28px);
+    filter: blur(10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+    filter: blur(0);
+  }
+}
+
+@keyframes hero-pop-up {
+  from {
+    opacity: 0;
+    transform: translateY(48px) scale(0.9);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@layer base {
+
+  /* Sharp corners everywhere. No exceptions. */
+  *,
+  *::before,
+  *::after {
+    border-radius: 0;
+  }
+
+  html {
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+
+    /* Two separate jobs, both load-bearing for the rule grid:
+
+       1. `overflow-x: clip` — torn slabs overhang their content box, and
+          bleed content (Rule variant="bleed", the bleeding card row) is
+          MEANT to run past the frame. Either would otherwise show up as a
+          horizontal scrollbar. `clip` rather than `hidden` on purpose:
+          `hidden` makes this element a scroll container, which silently
+          breaks `position: sticky` in descendants. `clip` just clips.
+
+       2. `scrollbar-gutter: stable` — the fixed RuleLayer centers against
+          the viewport while in-flow content centers against the content
+          box. When a scrollbar appears those two centers differ by half
+          the scrollbar width and every vertical hairline drifts off its
+          content edge. Reserving the gutter keeps them identical. */
+    overflow-x: clip;
+    scrollbar-gutter: stable;
+  }
+
+  body {
+    background-color: var(--color-canvas);
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    font-weight: 500;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+}
+
+@layer components {
+
+  /* Paper-cutout: a card that feels laid on the page like a printed photo.
+     Opaque `surface` fill is deliberate — cards sit ABOVE the rule grid and
+     must occlude any rule they cross rather than being crossed by it. */
+  .paper {
+    background-color: var(--color-surface);
+    border: 1px solid var(--color-rule);
+    box-shadow: 0 2px 8px rgb(0 0 0 / 0.06);
+  }
+
+  /* Frosted glass panel for the contact modal. Sits over the #141414 dark
+     section, so it's tuned for a dark backdrop only — sharp corners, no
+     border-radius. */
+  .modal-glass {
+    background: rgb(255 255 255 / 0.08);
+    backdrop-filter: blur(20px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    border: 1px solid rgb(255 255 255 / 0.14);
+    box-shadow:
+      0 24px 60px rgb(0 0 0 / 0.5),
+      inset 0 1px 0 rgb(255 255 255 / 0.22);
+  }
+
+  @supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+    .modal-glass {
+      background: rgb(30 30 30 / 0.97);
+    }
+  }
+}
+
+@layer utilities {
+
+  /* -------------------------------------------------------------
+     Dot grid. Lives here rather than as an arbitrary-value class on the
+     element because the tile geometry (16px, 1px dot at 1px 1px) has to be
+     identical everywhere for the field to read as one continuous grid, and
+     because the fill must resolve to `--color-rule-strong` so it inverts
+     with the rest of the rule system under `.dark`.
+
+     `--dot-fade` sets the direction the field fades out toward; DotField
+     passes it inline. The mask is what keeps this decorative — a dot grid
+     that runs edge to edge competes with the rules instead of sitting
+     under them.
+  ------------------------------------------------------------- */
+  .dot-field {
+    background-image: radial-gradient(circle at 1px 1px,
+        var(--color-rule-strong) 1px,
+        transparent 0);
+    background-size: 16px 16px;
+    -webkit-mask-image: linear-gradient(var(--dot-fade, to bottom),
+        #000 0%,
+        transparent 80%);
+    mask-image: linear-gradient(var(--dot-fade, to bottom),
+        #000 0%,
+        transparent 80%);
+  }
+
+  /* -------------------------------------------------------------
+     Vibrant-textured-container decoration set (see
+     vibrant-textured-containers-spec.md, section 2).
+
+     - Every textured element needs `relative isolate overflow-hidden`.
+       `isolate` stops `mix-blend-mode` from bleeding onto siblings.
+     - Max TWO texture utilities per element. Grain + blotch is the
+       default. Halftone REPLACES grain on roughly one slab in three —
+       `tex-grain` and `tex-halftone` both target `::after` and would
+       fight over the same pseudo-element if combined.
+     - The `inset: -20%` (`-30%` on halftone) overscan is load-bearing:
+       rotating a clipped shape with a flush-fit texture exposes a
+       hairline gap at the torn edge.
+  ------------------------------------------------------------- */
+
+  /* fine film grain — breaks up the flat fill */
+  .tex-grain::after {
+    content: "";
+    position: absolute;
+    inset: -20%;
+    /* overscan so rotation never reveals an edge */
+    pointer-events: none;
+    opacity: 0.22;
+    mix-blend-mode: multiply;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+
+  /* coarse blotch — uneven ink density, the "risograph" tell */
+  .tex-blotch::before {
+    content: "";
+    position: absolute;
+    inset: -20%;
+    pointer-events: none;
+    opacity: 0.35;
+    mix-blend-mode: multiply;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='b'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.012' numOctaves='2'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3CfeComponentTransfer%3E%3CfeFuncA type='linear' slope='0.6' intercept='0.2'/%3E%3C/feComponentTransfer%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23b)'/%3E%3C/svg%3E");
+  }
+
+  /* halftone dots — use on ~1 in 3 shapes, not every one */
+  .tex-halftone::after {
+    content: "";
+    position: absolute;
+    inset: -30%;
+    pointer-events: none;
+    opacity: 0.28;
+    mix-blend-mode: multiply;
+    background-image: radial-gradient(currentColor 1.1px, transparent 1.3px);
+    background-size: 6px 6px;
+    transform: rotate(22deg);
+    /* kills moiré against the pixel grid */
+    -webkit-mask-image: linear-gradient(115deg, #000 0%, transparent 65%);
+    mask-image: linear-gradient(115deg, #000 0%, transparent 65%);
+  }
+
+  /* Photo-filled slabs (`ColorSlab image=...`). The three blend layers above
+     were tuned against the light, saturated pop inks; `multiply` over a
+     near-black photo is a visual no-op that still costs a promoted blend layer.
+     Overlay/soft-light keep the same "printed, not screen-perfect" read on a
+     dark fill.
+     `.tex-photo.tex-*` is (0,2,1) against the base rules' (0,1,1), so it wins on
+     specificity alone and overrides only these two properties — content, inset,
+     pointer-events and the noise background-image still come from above. */
+  .tex-photo.tex-grain::after {
+    mix-blend-mode: overlay;
+    opacity: 0.18;
+  }
+
+  .tex-photo.tex-blotch::before {
+    mix-blend-mode: soft-light;
+    opacity: 0.3;
+  }
+
+  /* Frame doesn't forward `halftone`, so this is only reachable by using
+     ColorSlab directly with image + halftone — kept so that combination can't
+     silently multiply itself into mud later. */
+  .tex-photo.tex-halftone::after {
+    mix-blend-mode: overlay;
+    opacity: 0.2;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

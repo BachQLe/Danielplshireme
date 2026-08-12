@@ -1,0 +1,20 @@
+Tegno
+PutraCetol Studio >< Shanaf STD
+https://www.fontspace.com/tegno-font-f144807
+
+License: Freeware, NON-COMMERCIAL / PERSONAL USE ONLY.
+
+This font is copyrighted and protected by law. Usage on any work without a
+proper license is deemed illegal. For commercial use, purchase a license at
+https://putracetol.com/
+
+PutraCetol also offers 10+ free fonts for commercial use:
+https://putracetol.com/freebies/
+
+Contact: putra.designer@gmail.com
+Donations: https://www.paypal.me/putracetol
+
+---
+Used here on a personal portfolio site (Tegno.woff2 / Tegno.ttf, wired via
+@font-face in src/index.css as --font-display). If this site ever becomes
+commercial, buy the license first.
