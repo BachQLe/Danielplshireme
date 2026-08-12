@@ -92,19 +92,19 @@ const bubbleStyle: CSSProperties = {
 /*
  * The headline now sits low enough that HIRE dips into the hair, where solid
  * black reads as a smudge against dark hair instead of type. These two
- * layers are a solid-white duplicate of each line, masked by the portrait's
- * own alpha channel — visible only where the portrait is opaque, i.e.
- * exactly the silhouette, not a bounding box. A solid fill (rather than a
- * hollow stroke-only outline) is what keeps this legible: the display
- * font's chunky strokes reduce a thin outline to a broken tangle of lines,
- * while a full white fill still reads as the letterform against dark hair.
+ * layers are a white-outline duplicate of each line, masked by the
+ * portrait's own alpha channel — visible only where the portrait is opaque,
+ * i.e. exactly the silhouette, not a bounding box. Fill is transparent so
+ * the underlying black line1/line2 still shows through the letterform;
+ * only the stroke is drawn, tracing the edges against the dark hair.
  * Reusing the same PNG costs nothing extra over the network (browser cache,
  * same URL as the <img> below). mask-position is (photo origin − line
  * origin) so the reused portrait lines back up with where it's actually
  * drawn on screen; redo that math if `photoStyle` or either line's left/top
  * ever changes. */
 const maskShared: CSSProperties = {
-  color: '#fff',
+  color: 'transparent',
+  WebkitTextStroke: '0.3cqw #fff',
   WebkitMaskImage: 'url(/images/hero/portrait.png)',
   maskImage: 'url(/images/hero/portrait.png)',
   WebkitMaskRepeat: 'no-repeat',
