@@ -63,29 +63,29 @@ const posterStyle: CSSProperties = {
  */
 const line1Style: CSSProperties = {
   left: '11.0cqw',
-  top: `${4.0 + HERO_TOP_PAD_CQW}cqw`,
+  top: `${1.5 + HERO_TOP_PAD_CQW}cqw`,
   fontSize: '14.5cqw',
 }
 const line2Style: CSSProperties = {
   left: '11.0cqw',
-  top: `${17.5 + HERO_TOP_PAD_CQW}cqw`,
+  top: `${15.0 + HERO_TOP_PAD_CQW}cqw`,
   fontSize: '14.5cqw',
   animationDelay: '90ms',
 }
 
 const photoStyle: CSSProperties = {
-  left: '31.5185cqw',
-  top: `${24.0905 + HERO_TOP_PAD_CQW}cqw`,
-  width: '35.8537cqw',
-  height: '36.4837cqw',
+  left: '30.0844cqw',
+  top: `${22.6312 + HERO_TOP_PAD_CQW}cqw`,
+  width: '38.7220cqw',
+  height: '39.4024cqw',
   animationDelay: '1500ms',
 }
 
 const bubbleStyle: CSSProperties = {
-  left: '58.1616cqw',
-  top: `${34.8923 + HERO_TOP_PAD_CQW}cqw`,
-  width: '13.0725cqw',
-  height: '9.7987cqw',
+  left: '57.6387cqw',
+  top: `${34.5003 + HERO_TOP_PAD_CQW}cqw`,
+  width: '14.1183cqw',
+  height: '10.5826cqw',
   animationDelay: '2500ms',
 }
 
@@ -109,22 +109,22 @@ const maskShared: CSSProperties = {
   maskImage: 'url(/images/hero/portrait.png)',
   WebkitMaskRepeat: 'no-repeat',
   maskRepeat: 'no-repeat',
-  WebkitMaskSize: '35.8537cqw 36.4837cqw',
-  maskSize: '35.8537cqw 36.4837cqw',
+  WebkitMaskSize: '38.7220cqw 39.4024cqw',
+  maskSize: '38.7220cqw 39.4024cqw',
 }
 
 const line1MaskStyle: CSSProperties = {
   ...line1Style,
   ...maskShared,
-  WebkitMaskPosition: '20.5185cqw 20.0905cqw',
-  maskPosition: '20.5185cqw 20.0905cqw',
+  WebkitMaskPosition: '19.0844cqw 21.1312cqw',
+  maskPosition: '19.0844cqw 21.1312cqw',
 }
 
 const line2MaskStyle: CSSProperties = {
   ...line2Style,
   ...maskShared,
-  WebkitMaskPosition: '20.5185cqw 6.5905cqw',
-  maskPosition: '20.5185cqw 6.5905cqw',
+  WebkitMaskPosition: '19.0844cqw 7.6312cqw',
+  maskPosition: '19.0844cqw 7.6312cqw',
 }
 
 export function Hero() {
