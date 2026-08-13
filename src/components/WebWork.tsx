@@ -38,7 +38,7 @@ const projects: WebProject[] = [
     screenshot: '/images/personal-remedies-screenshot.png',
     screenshotPosition: 'object-[center_15%]',
     href: 'https://remedy-nine.vercel.app/app/home',
-    linkText: 'open WIP app',
+    linkText: 'see my WIP app',
     frameSeed: 'webwork-remedies',
     frameColor: 'bg-pop-blue',
     frameImage: '/images/texture-deco.jpg',

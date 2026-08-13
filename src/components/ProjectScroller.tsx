@@ -256,7 +256,7 @@ const PROJECTS: Project[] = [
   {
     label: 'MY SIGNOUT EDIT',
     description:
-      'My friend and I collaborated with the county to post our senior signout video on the Official School District Instagram account.',
+      'My friend and I collaborated with the county to post our senior signout video on the official school district instagram account.',
     imageUrl: '/images/signout-still.png',
     imageAlt: 'Still from the signout edit',
     href: 'https://www.instagram.com/p/DZfJsalqPp6H1SHUP6KjMz448mJKya7gfPf5nU0/',

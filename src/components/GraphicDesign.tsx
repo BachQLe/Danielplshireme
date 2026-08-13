@@ -28,7 +28,7 @@ export function GraphicDesign() {
         {/* Placeholder URL — swap for the real hosted link once this project has one. */}
         <FeatureCard
           title="Hiring Instagram Graphic"
-          description="built in canva with mints media branding"
+          description="built in canva with mints media logo branding"
           href="https://canva.link/zflkzsc29hhd2jb"
           ctaLabel="open in canva"
           seed="graphic-design"

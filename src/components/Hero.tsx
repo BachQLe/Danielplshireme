@@ -70,7 +70,7 @@ const line2Style: CSSProperties = {
   left: '11.0cqw',
   top: `${15.0 + HERO_TOP_PAD_CQW}cqw`,
   fontSize: '14.5cqw',
-  animationDelay: '90ms',
+  animationDelay: '200ms',
 }
 
 const photoStyle: CSSProperties = {
@@ -78,15 +78,15 @@ const photoStyle: CSSProperties = {
   top: `${22.6312 + HERO_TOP_PAD_CQW}cqw`,
   width: '38.7220cqw',
   height: '39.4024cqw',
-  animationDelay: '1500ms',
+  animationDelay: '1200ms',
 }
 
 const bubbleStyle: CSSProperties = {
-  left: '57.6387cqw',
+  left: '60.0cqw',
   top: `${34.5003 + HERO_TOP_PAD_CQW}cqw`,
   width: '14.1183cqw',
   height: '10.5826cqw',
-  animationDelay: '2500ms',
+  animationDelay: '2000ms',
 }
 
 /*

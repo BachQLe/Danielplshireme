@@ -26,7 +26,7 @@ export function WhyMe() {
           DOM order. */}
       <FadingLines color="bg-line" growWithHero />
       <div className="relative z-10">
-        <SectionTitle icon="star">why me</SectionTitle>
+        <SectionTitle icon="star">me</SectionTitle>
         {/* relative wrapper so the polaroid below can be positioned against
             THIS box rather than passing `absolute` into a component whose own
             base classes might collide with it (hard rule 0) — nothing here
@@ -49,7 +49,7 @@ export function WhyMe() {
                 </li>
                 <li className="flex gap-3">
                   <span className="text-accent-green">—</span>
-                  <span>Edit cooking videos for fun</span>
+                  <span>I Edit cooking videos for fun</span>
                 </li>
                 <li className="flex gap-3">
                   <span className="text-accent-green">—</span>
@@ -88,11 +88,18 @@ export function WhyMe() {
               <p>
                 I'm someone who gets easily obsessed and that trait has me put
                 my all into everything I do. Design has always been the thing I
-                stay up late doing — whether it's editing videos or tweaking
-                buttons on my sites. I'm also a shooter and i am not scared of
+                stay up late doing — whether it's tweaking buttons on my sites or editing a cool shot for a video project.
+              </p>
+              <p className="indent-8">
+                I also
+                love shooting shots and i'm not scared of
                 rejection. I wrote cold emails to professors by hand and got
                 rejected by 20 before I landed 2 research assistant roles, one
-                at Wharton and one at UCLA. So when I'm creating your graphics,
+                at Wharton and one at UCLA. I think every 'no' is a point of data and a chance to adapt and grow,
+                and I wouldn't be where I am without rejections.
+              </p>
+              <p className="indent-8">
+                So when I'm designing your graphics,
                 building your slideshows, and compiling your sound library, I
                 will put that same obsessive effort into every single one — and
                 if the first version happens to miss something, I'll make
@@ -104,18 +111,21 @@ export function WhyMe() {
                 why i want this
               </p>
               <p>
-                I want this because I want to learn/work marketing under real,
-                successful people. I ED'd to my college, UVA, because they had
+                I want this because I'm going to learn/work marketing under real,
+                successful people and this is a fire way to meet that goal. For backstory I ED'd to my college, UVA, because they had
                 an IB pipeline. But as I was chasing prestige, I realized this
                 isn't what little me wanted — what my 5 year old self wanted.
-                I've spent my childhood and high school years invested into
-                film, and after reflecting on myself I realized marketing could
-                be my thing. Despite the 'lower aura' and unclear road, i'm
+                I've spent my childhood and high school years invested in
+                film, and after reflecting on myself I realized marketing could totally
+                be my thing.
+              </p>
+              <p className="indent-8">
+                Despite the 'lower aura' and unclear road, i'm
                 going to run down the path of marketing and create a fulfilling
                 life for myself. This internship application is a trail blazer
                 on that path, and like everything else i'm giving my all into
                 building it — which is why you're reading this on a website and
-                not a DM.
+                not a insta DM.
               </p>
             </div>
           </div>
@@ -140,7 +150,7 @@ export function WhyMe() {
             on mobile where there's no room beside it. `flex-col` (not
             `sm:block`) so the `gap-10` below actually applies at every
             breakpoint — block children don't respect `gap`. */}
-          <div className="mt-10 flex flex-col items-center gap-16 sm:absolute sm:right-6 sm:top-0 sm:mt-0 sm:w-52 lg:right-8 lg:w-64">
+          <div className="mt-10 flex flex-col items-center gap-24 sm:absolute sm:right-6 sm:top-0 sm:mt-0 sm:w-52 lg:right-8 lg:w-64">
             <div className="relative isolate w-48 sm:w-full">
               {/* Positioned by the wrapper, not by a class on ColorSlab — see the
                 note in deco/Frame.tsx about `absolute` losing to ColorSlab's

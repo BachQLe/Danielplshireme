@@ -1,6 +1,5 @@
 import { Section, SectionTitle } from './Section'
 import { Reveal } from './Reveal'
-import { IconBadge } from './Accent'
 import { PixelIcon, type PixelIconName } from './PixelIcon'
 import { ColorSlab } from './deco/ColorSlab'
 
@@ -18,7 +17,7 @@ const rows: ComparisonRow[] = [
     mine: 'Willing to pump designs quickly',
     theirs: 'Probably slow af',
     iconMine: 'play',
-    iconTheirs: 'cross',
+    iconTheirs: 'play',
   },
   {
     label: 'SOUND',
@@ -32,28 +31,28 @@ const rows: ComparisonRow[] = [
     mine: 'Knows React/TS and UI/UX',
     theirs: 'Purple gradient vibecoding',
     iconMine: 'star',
-    iconTheirs: 'sparkle',
+    iconTheirs: 'star',
   },
   {
     label: 'GRAPHIC DESIGN',
     mine: 'Attention-grabbing + human designs ',
     theirs: 'Default Canva template + GPT posters',
     iconMine: 'sparkle',
-    iconTheirs: 'cross',
+    iconTheirs: 'sparkle',
   },
   {
     label: 'VIDEO EDITING',
     mine: '3 yrs DaVinci Resolve',
     theirs: 'iMovie warrior',
     iconMine: 'film',
-    iconTheirs: 'cross',
+    iconTheirs: 'film',
   },
   {
     label: 'THE EDGE',
     mine: 'SUPER PUMPED!',
     theirs: 'Not as pumped',
     iconMine: 'heart',
-    iconTheirs: 'cross',
+    iconTheirs: 'heart',
   },
 ]
 
@@ -61,8 +60,6 @@ type ColumnProps = {
   name: string
   accent: string
   textAccent: string
-  badgeIcon: PixelIconName
-  badgeAccent: 'green' | 'coral'
   side: 'mine' | 'theirs'
   divider?: boolean
 }
@@ -72,7 +69,7 @@ type ColumnProps = {
  * rendered as direct grid children (not a wrapping element) so the parent
  * grid can align rows across both columns and stack them cleanly on mobile.
  */
-function Column({ name, accent, textAccent, badgeIcon, badgeAccent, side, divider }: ColumnProps) {
+function Column({ name, accent, textAccent, side, divider }: ColumnProps) {
   // Follows the RuleGrid convention: exactly one owner per seam, never
   // `border` on every cell. The right column alone owns the vertical seam
   // between columns, and each row alone owns its own top edge — if both
@@ -90,7 +87,6 @@ function Column({ name, accent, textAccent, badgeIcon, badgeAccent, side, divide
           className={textAccent}
         />
         <span className="text-base font-bold text-ink">{name}</span>
-        <IconBadge icon={badgeIcon} accent={badgeAccent} surface="solid" className="ml-auto" />
       </div>
       {rows.map((row, i) => {
         const value = side === 'mine' ? row.mine : row.theirs
@@ -140,16 +136,12 @@ export function ComparisonCard() {
               name="Bach Le"
               accent="bg-green"
               textAccent="text-green"
-              badgeIcon="check"
-              badgeAccent="green"
               side="mine"
             />
             <Column
               name="Other Applicants"
               accent="bg-coral"
               textAccent="text-coral"
-              badgeIcon="cross"
-              badgeAccent="coral"
               side="theirs"
               divider
             />
