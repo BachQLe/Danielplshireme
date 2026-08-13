@@ -44,12 +44,12 @@ export function WhyMe() {
                 <li className="flex gap-3">
                   <span className="text-accent-green">—</span>
                   <span>
-                    Video editor and web designer who just graduated high school
+                    Videographer and web designer who just graduated high school
                   </span>
                 </li>
                 <li className="flex gap-3">
                   <span className="text-accent-green">—</span>
-                  <span>I Edit cooking videos for fun</span>
+                  <span>I film and edit cooking videos for fun</span>
                 </li>
                 <li className="flex gap-3">
                   <span className="text-accent-green">—</span>
@@ -125,7 +125,7 @@ export function WhyMe() {
                 life for myself. This internship application is a trail blazer
                 on that path, and like everything else i'm giving my all into
                 building it — which is why you're reading this on a website and
-                not a insta DM.
+                not an insta DM.
               </p>
             </div>
           </div>
